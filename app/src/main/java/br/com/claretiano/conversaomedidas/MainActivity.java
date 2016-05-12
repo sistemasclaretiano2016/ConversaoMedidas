@@ -142,16 +142,19 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             imgConvertor.setImageResource(R.drawable.length);
 
             preencherListaComprimento("");
+            converterDados(edtValor.getText().toString());
         } else if (checkedId == R.id.rdb_peso) {
             tipoConversaoEnum = TipoConversaoEnum.Peso;
             imgConvertor.setImageResource(R.drawable.peso);
 
             preencherListaPeso("");
+            converterDados(edtValor.getText().toString());
         } else if (checkedId == R.id.rdb_temperatura) {
             tipoConversaoEnum = TipoConversaoEnum.Temperatura;
             imgConvertor.setImageResource(R.drawable.cold);
 
             preencherListaTemperatura("");
+            converterDados(edtValor.getText().toString());
         }
     }
 
@@ -160,8 +163,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         if (parent.getId() == R.id.spn_de) {
             preencherListaAte(listaItensDe.get(position));
             txtResultado.setText("");
+            converterDados(edtValor.getText().toString());
         } else if (parent.getId() == R.id.spn_ate) {
             txtResultado.setText("");
+            converterDados(edtValor.getText().toString());
         }
     }
 
@@ -180,11 +185,16 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     @Override
     public void afterTextChanged(Editable s) {
+        converterDados(s.toString());
+    }
+
+
+    public void converterDados(String s) {
         try {
             String resultado = "";
             double valor = 0;
             try {
-                valor = Double.parseDouble(s.toString());
+                valor = Double.parseDouble(s);
             } catch (Exception ignored) {
                 valor = 0;
             }
@@ -195,21 +205,21 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             }
 
             if (TipoConversaoEnum.Comprimento.equals(tipoConversaoEnum)) {
-                resultado = String.format(Locale.getDefault(), "%f %ss",
+                resultado = String.format(Locale.getDefault(), "%f\n%ss",
                         UtilConversao.ConverterComprimento(
                                 UtilConversao.ComprimentoEnum.retornaPorLegenda(listaItensDe.get(spnDe.getSelectedItemPosition())),
                                 UtilConversao.ComprimentoEnum.retornaPorLegenda(listaItensPara.get(spnAte.getSelectedItemPosition())),
                                 valor),
                         listaItensPara.get(spnAte.getSelectedItemPosition()));
             } else if (TipoConversaoEnum.Peso.equals(tipoConversaoEnum)) {
-                resultado = String.format(Locale.getDefault(), "%f %ss",
+                resultado = String.format(Locale.getDefault(), "%f\n%ss",
                         UtilConversao.ConverterPeso(
                                 UtilConversao.PesoEnum.retornaPorLegenda(listaItensDe.get(spnDe.getSelectedItemPosition())),
                                 UtilConversao.PesoEnum.retornaPorLegenda(listaItensPara.get(spnAte.getSelectedItemPosition())),
                                 valor),
                         listaItensPara.get(spnAte.getSelectedItemPosition()));
             } else if (TipoConversaoEnum.Temperatura.equals(tipoConversaoEnum)) {
-                resultado = String.format(Locale.getDefault(), "%f %s",
+                resultado = String.format(Locale.getDefault(), "%f\n%s",
                         UtilConversao.ConverterTemperatura(
                                 UtilConversao.TemperaturaEnum.retornaPorLegenda(listaItensDe.get(spnDe.getSelectedItemPosition())),
                                 UtilConversao.TemperaturaEnum.retornaPorLegenda(listaItensPara.get(spnAte.getSelectedItemPosition())),
@@ -223,7 +233,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             txtResultado.setText("");
         }
     }
-
 
     public enum TipoConversaoEnum {None, Comprimento, Peso, Temperatura}
 }
