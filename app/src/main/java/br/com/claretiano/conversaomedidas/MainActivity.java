@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -29,6 +30,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private Spinner spnAte;
 
     private EditText edtValor;
+    private ImageView imgConvertor;
 
     private TextView txtResultado;
 
@@ -120,12 +122,15 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         edtValor = (EditText) findViewById(R.id.edt_valor);
         txtResultado = (TextView) findViewById(R.id.txt_resultado);
 
+        imgConvertor = (ImageView) findViewById(R.id.img_conversor);
+
         spnDe.setOnItemSelectedListener(this);
         spnAte.setOnItemSelectedListener(this);
 
         edtValor.addTextChangedListener(this);
 
         tipoConversaoEnum = TipoConversaoEnum.Comprimento;
+        imgConvertor.setImageResource(R.drawable.length);
 
         preencherListaComprimento("");
     }
@@ -134,14 +139,17 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     public void onCheckedChanged(RadioGroup group, int checkedId) {
         if (checkedId == R.id.rdb_comprimento) {
             tipoConversaoEnum = TipoConversaoEnum.Comprimento;
+            imgConvertor.setImageResource(R.drawable.length);
 
             preencherListaComprimento("");
         } else if (checkedId == R.id.rdb_peso) {
             tipoConversaoEnum = TipoConversaoEnum.Peso;
+            imgConvertor.setImageResource(R.drawable.peso);
 
             preencherListaPeso("");
         } else if (checkedId == R.id.rdb_temperatura) {
             tipoConversaoEnum = TipoConversaoEnum.Temperatura;
+            imgConvertor.setImageResource(R.drawable.cold);
 
             preencherListaTemperatura("");
         }
